@@ -1,6 +1,10 @@
-interface Option {
+export interface Option {
   value: string;
   text: string;
+}
+
+export interface OptionWithHTML extends Option {
+  html: string;
 }
 
 export interface QuestionData {
