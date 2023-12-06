@@ -1,24 +1,37 @@
+'use client';
+
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Code } from 'bright';
 
-import { QuestionData } from '@/models/Question';
-import generateHtmlForOptions from '@/lib/generateHtmlForOptions';
+import { OptionWithHTML, QuestionData } from '@/models/Question';
+import { Button } from '../ui/button';
 
-interface QuestionProps {
-  question: QuestionData;
+interface DisplayedQuestion extends QuestionData {
+  optionsWithHTML: OptionWithHTML[];
 }
 
-export const Question: React.FC<QuestionProps> = async ({ question }) => {
+interface QuestionProps {
+  question: DisplayedQuestion;
+  children: React.ReactNode;
+}
+
+export const Question: React.FC<QuestionProps> = async ({
+  question,
+  children,
+}) => {
   const {
     questionNumber,
     questionTitle,
     questionCode,
-    options,
+    optionsWithHTML,
     answer,
     explanation,
   } = question;
-  const optionsWithHTML = await generateHtmlForOptions(options);
+
+  const nextHandler = () => {
+    console.log('next');
+  };
+  console.log('render');
 
   return (
     <>
@@ -26,7 +39,8 @@ export const Question: React.FC<QuestionProps> = async ({ question }) => {
         <h1>
           {questionNumber}: {questionTitle}
         </h1>
-        <Code lang='js'>{questionCode}</Code>
+
+        {children}
         <RadioGroup>
           {optionsWithHTML.map(({ value, html }) => {
             return (
@@ -41,10 +55,7 @@ export const Question: React.FC<QuestionProps> = async ({ question }) => {
             );
           })}
         </RadioGroup>
-        {/* <div
-          className='prose prose-neutral'
-          dangerouslySetInnerHTML={{ __html: contentHtml }}
-        /> */}
+        <Button onClick={nextHandler}>Next</Button>
       </section>
     </>
   );

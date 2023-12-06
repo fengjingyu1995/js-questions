@@ -1,12 +1,9 @@
-import Questions from '@/components/questions';
-import questionsJSON from '../data/questions.json';
-import { QuestionData } from '@/models/Question';
+import Link from "next/link";
 
 export default function Home() {
-  const questions = questionsJSON as QuestionData[];
   return (
     <main className=''>
-      <Questions questions={questions} />
+      <Link href='/question/1'>Start the quiz</Link>
     </main>
   );
 }
